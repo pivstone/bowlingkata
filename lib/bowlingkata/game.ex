@@ -54,7 +54,7 @@ defmodule Bowlingkata.Game do
        do: raise("game_alreay_over")
 
   # when the last frame is a strike or a spare
-  # play has a extra turn
+  # the player has a extra turn
   defp hit(
          pin,
          %__MODULE__{
@@ -67,12 +67,12 @@ defmodule Bowlingkata.Game do
     %__MODULE__{state | frames: [new_current | other], extra: pin + state.extra, rate: rate - 1}
   end
 
-  # Step
-  # 1st update frame: insert a new frame into frames
+  # Steps
+  # 1. Updating frame: insert a new frame into frames
   # or update the uncompleted current frame
   #
-  # 2nd cacluate the score
-  # 3rd counter the bouns rate
+  # 2. Cacluating the score
+  # 3. Counting the bouns' rate
   defp hit(pin, %__MODULE__{} = state) do
     state
     |> update_frame(pin)
@@ -89,9 +89,9 @@ defmodule Bowlingkata.Game do
     hit_many(times - 1, pin, state)
   end
 
-  # when last frame is a strike or a spare
+  # when the last frame is a strike or a spare
   # this turn's point should be double
-  # and update the current frame and the last frame's score
+  # then update the current frame and the last frame's score
   defp calc_score(%__MODULE__{rate: rate, frames: [current | [last | frames]]} = state, pin)
        when rate > 0 do
     new_last_frames = %Frame{last | score: last.score + pin}
